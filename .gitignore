@@ -1,0 +1,8 @@
+inst/doc
+.Rproj.user
+.DS_Store
+.RData
+.Rhistory
+.Rbuildignore
+PUCA.Rproj
+Read-and-delete-me

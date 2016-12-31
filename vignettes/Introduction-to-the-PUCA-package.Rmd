@@ -1,0 +1,17 @@
+---
+title: "Using PUCA to find provenances"
+author: "P. A. Harrison"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using PUCA to find provenances}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+## General introduction
+
+Global climates are changing and local provenances are being exposed to increasingly novel environments. Yet, in the face of climate change, local provenancing is still advocated. Recent restoration literature argues for a paradigm shift from traditional local provenancing to other  strategies that enable climate-resilience and longevity for the revegetation plantings. Here we present the first implementation of Prober *et al.* (2015) climate-adjusted provenancing strategy.
+
+## Using PUCA's graphic user interface
+
+## References
