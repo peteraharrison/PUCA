@@ -41,8 +41,8 @@
 geoCode <- function(address, print = F, type = 1){
   baseURL <- "https://maps.google.com/maps/api/geocode/json?sensor=false&key=AIzaSyDctD6fFrmhLsZV09hR-CPZvtR_O1hrWoE&"
   conURL <- paste0(baseURL,'latlng=', utils::URLencode(address)) 
-  con <- url(conURL)  
-  data.json <- fromJSON(paste(readLines(con), collapse=""))
+  con <- base::url(conURL)  
+  data.json <- RJSONIO::fromJSON(paste(readLines(con), collapse=""))
   close(con) 
   status <- data.json["status"]
   if(toupper(status) == "OK"){

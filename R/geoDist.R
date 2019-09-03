@@ -47,7 +47,7 @@
 #' 
 #' @export
 #' 
-geoDist = function (ref,coords){
+geoDist <- function (ref, coords){
   rad <- pi/180
   R <- 6378.145
   #-- Reference coordinant
@@ -67,7 +67,7 @@ geoDist = function (ref,coords){
     c <- 2 * atan2(sqrt(a), sqrt(1 - a))
     dist[[i]] <- R * c  ####
   }
-  dist = do.call(rbind.data.frame, dist)[1]
-  colnames(dist)<-"geoDist"
+  dist <- do.call(rbind.data.frame, dist)[1]
+  colnames(dist) <- "geoDist"
   return(round(dist,2))
 }
