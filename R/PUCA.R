@@ -20,6 +20,6 @@
 #' Maintainer: P. A. Harriosn <P.A.Harrison@utas.edu.au>
 #' 
 #' @references
-#' Harrison PA, Vaillancourt RE, Harris RMB, Potts BM (2017) Integrating climate change and habitat fragmentation to identify candidate seed sources for ecological restoration.\emph{Restoration Ecology}.
+#' Harrison PA, Vaillancourt RE, Harris RMB, Potts BM (2017) Integrating climate change and habitat fragmentation to identify candidate seed sources for ecological restoration.\emph{Restoration Ecology}, 24, 524-531.
 #'
 #' Prober, SM, Byrne, M, McLean, EH, Steane, DA, \emph{et al.} (2015) Climate-adjusted provenancing: A strategy for climate-resilient ecological restoration. \emph{Frontiers in Ecology and Evolution}, 3, 1-5.
