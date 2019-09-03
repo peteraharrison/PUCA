@@ -33,21 +33,22 @@
 #'tmp <- data.frame(id = "test", longitude = 147.4686, latitude = -42.008)
 #'
 # Run function
+#'tmp <- PUCA::geoCode(paste(tmp[, "latitude"], tmp[, "longitude"], sep = ","))
 #'
 #' @export
 #' @importFrom RJSONIO fromJSON
 #'
 geoCode <- function(address, print = F, type = 1){
-  baseURL <- "http://maps.google.com/maps/api/geocode/json?sensor=false&"
-  conURL <- paste(baseURL,'latlng=',URLencode(address), sep="") 
+  baseURL <- "https://maps.google.com/maps/api/geocode/json?sensor=false&key=AIzaSyDctD6fFrmhLsZV09hR-CPZvtR_O1hrWoE&"
+  conURL <- paste0(baseURL,'latlng=', utils::URLencode(address)) 
   con <- url(conURL)  
   data.json <- fromJSON(paste(readLines(con), collapse=""))
   close(con) 
   status <- data.json["status"]
   if(toupper(status) == "OK"){
-    out = sapply(data.json$results,function(x) {list(address=x$formatted_address)})[type]#or chnage to [2] for more privacy
-    out = paste(out,sep="")
-  }else {out = paste("Georeferencing unknown")}
+    out <- sapply(data.json$results,function(x) {list(address = x$formatted_address)})[type]#or chnage to [2] for more privacy
+    out <- paste0(out)
+  }else {out <- paste("Georeferencing unknown")}
   if(print) print(out)
   invisible(out)
 } 
