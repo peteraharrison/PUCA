@@ -26,10 +26,10 @@
 #' @export
 #' @import sp raster
 #' 
-drawRegion = function (x, y, r, numVert = 1000){
-  r = r / 100 #r*0.008333333 #convert to dd = ca 1km
+drawRegion <- function (x, y, r, numVert = 1000){
+  r <- r / 100 #r*0.008333333 #convert to dd = ca 1km
   #-- Get values to draw a circle
-  angle.inc <- 2 * pi/numVert
+  angle.inc <- 2 * pi / numVert
   angles <- seq(0, 2 * pi - angle.inc, by = angle.inc)
   for (circle in 1:length(r)){
     xv <- cos(angles) * r[circle] + x
@@ -39,7 +39,7 @@ drawRegion = function (x, y, r, numVert = 1000){
   tmpCirc = rbind(tmpCirc, tmpCirc[1,])
   
   #-- Convert buffer to spatial
-  sp_poly <- SpatialPolygons(list(Polygons(list(Polygon(tmpCirc)), ID=1)))    
+  sp_poly <- sp::SpatialPolygons(list(sp::Polygons(list(sp::Polygon(tmpCirc)), ID = 1)))    
   
   #-- Return buffer
   invisible(sp_poly)
