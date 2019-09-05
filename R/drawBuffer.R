@@ -39,13 +39,13 @@ drawBuffer <- function (x, y, r, numVert = 1000, n = 20, mask = NULL){
   tmpCirc <- rbind(tmpCirc, tmpCirc[1,])
   
   #-- Convert buffer to spatial
-  sp_poly <- sp::SpatialPolygons(list(sp::Polygons(list(sp::Polygon(tmpCirc)), ID = 1)))
-  sp_poly_df <- sp::SpatialPolygonsDataFrame(sp_poly, data = data.frame(ID = 1))
-  raster::projection(sp_poly_df) <- sp::CRS("+proj=longlat +datum=WGS84")
-  if(!is.null(mask)) {sp_poly_df <- raster::crop(sp_poly_df, mask)}
+  sp_poly <- SpatialPolygons(list(Polygons(list(Polygon(tmpCirc)), ID = 1)))
+  sp_poly_df <- SpatialPolygonsDataFrame(sp_poly, data = data.frame(ID = 1))
+  projection(sp_poly_df) <- CRS("+proj=longlat +datum=WGS84")
+  if(!is.null(mask)) {sp_poly_df <- crop(sp_poly_df, mask)}
   
   #-- Create points in buffer
-  psamp <- sp::spsample(sp_poly_df, n = n, type = "regular")    
+  psamp <- spsample(sp_poly_df, n = n, type = "regular")    
   
   #-- Return points within the buffer
   invisible(psamp)
