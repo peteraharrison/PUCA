@@ -5,7 +5,7 @@ z.GUI_findProv <- function(){
   ## set up main screen of GUI
   ##===========================
   
-  prov<-tktoplevel(bg='white')
+  prov <- tktoplevel(bg='white')
   tkfocus(prov)  
   tkwm.geometry(prov, "+200+0") # position in upper left corner of screen
   tkwm.minsize(prov, 550,550)
@@ -166,18 +166,18 @@ z.GUI_findProv <- function(){
   
   onRun <- function(){
     
-    lats = tclvalue(defaultDistanceLat)
-    lons = tclvalue(defaultDistanceLon)
+    lats <- tclvalue(defaultDistanceLat)
+    lons <- tclvalue(defaultDistanceLon)
     
-    tmpLats = strsplit(lats, split = ",")
-    lats = lapply(tmpLats, as.numeric)
-    tmpLons = strsplit(lons, split = ",")
-    lons = lapply(tmpLons, as.numeric)
+    tmpLats <- strsplit(lats, split = ",")
+    lats <- lapply(tmpLats, as.numeric)
+    tmpLons <- strsplit(lons, split = ",")
+    lons <- lapply(tmpLons, as.numeric)
     
-    coords = data.frame(Latitude = lats,
+    coords <- data.frame(Latitude = lats,
                         Longitude = lons,
                         row.names = NULL)
-    colnames(coords)<-c("Latitude", "Longitude")
+    colnames(coords) <- c("Latitude", "Longitude")
     assign('coords', coords, envir = .GlobalEnv)
     
     selectedSpecies <- as.numeric(tkcurselection(speciesList2))+1
