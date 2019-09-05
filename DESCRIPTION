@@ -7,37 +7,9 @@ Author: Peter A. Harrison [aut] [cre]
 Maintainer: Peter A. Harrison <P.A.Harrison@utas.edu.au>
 Description: An R package to identify provenances occupying projected analogous climates using contemporary and future climate projections.
 License: GPL-3
-Depends: 
-    R(>= 2.10)
+Depends: R(>= 2.10)
 LazyData: true
-Imports: 
-    ALA4R,
-    FactoMineR,
-    maptools,
-    mefa,
-    raster,
-    rgbif,
-    RJSONIO,
-    sp,
-    tcltk,
-    tcltk2
-Suggests: 
-    digest,
-    fields,
-    ggplot2,
-    httr,
-    mapdata,
-    MODISTools,
-    MODIS,
-    oai,
-    stringr,
-    svDialogs,
-    rasterVis,
-    rChoiceDialogs,
-    RColorBrewer,
-    rgdal,
-    xml2,
-    knitr,
-    rmarkdown
+Imports: ALA4R, FactoMineR, maptools, mefa, raster, rgbif, RJSONIO, sp, tcltk, tcltk2
+Suggests:  digest, fields, ggplot2, httr, mapdata, MODISTools, MODIS, oai, stringr, svDialogs, rasterVis, rChoiceDialogs, RColorBrewer, rgdal, xml2, knitr, rmarkdown
 RoxygenNote: 5.0.1
 VignetteBuilder: knitr
