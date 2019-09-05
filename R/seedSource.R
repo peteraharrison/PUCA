@@ -161,7 +161,7 @@ seedSource <- function(poi, species, region, currClim, futureClim, threshold = 2
   if(inherits(region, "SpatialPolygonsDataFrame")){
     if(verbose){
       tkfocus(log) 
-      tkinsert(log$env$txt, "end", paste("Reading restoration area shapefile and sampling revegetation region...", sep = ""))
+      tkinsert(log$env$txt, "end", paste("Reading restoration area shapefile and sampling revegetation region... ", sep = ""))
       tkfocus(log$env$txt)}
     
     #-- Read in shapefile from directory and project
@@ -183,7 +183,7 @@ seedSource <- function(poi, species, region, currClim, futureClim, threshold = 2
   if(inherits(region, "numeric")){
     if(verbose){
       tkfocus(log) 
-      tkinsert(log$env$txt, "end", paste("Creating restoration region and samping revegetation site...", sep = ""))
+      tkinsert(log$env$txt, "end", paste("Creating restoration region and samping revegetation site... ", sep = ""))
       tkfocus(log$env$txt)}
     
     #if(nrow(poi) > 1 & any(geoDist(poi[1,], poi[2:nrow(poi),]) < region)){}
@@ -212,7 +212,7 @@ seedSource <- function(poi, species, region, currClim, futureClim, threshold = 2
   if(any(!names(poi) %in% c("Longitude", "Latitude"))){
     if(verbose){
       tkfocus(log) 
-      tkinsert(log$env$txt, "end", paste("Renaming POI columns to match expected values...", sep = ""))
+      tkinsert(log$env$txt, "end", paste("Renaming POI columns to match expected values... ", sep = ""))
       tkfocus(log$env$txt)}
     
     if(is(poi, "data.frame")){
@@ -242,7 +242,7 @@ seedSource <- function(poi, species, region, currClim, futureClim, threshold = 2
   ##=================================================================
   if(verbose){
     tkfocus(log)
-    tkinsert(log$env$txt, "end", paste("Extracting climate data for region and revegetation sites...", sep = ""))
+    tkinsert(log$env$txt, "end", paste("Extracting climate data for region and revegetation sites... ", sep = ""))
     tkfocus(log$env$txt)}
   
   currClimPoints <- extract(x = currClim, y = regionPoints, df = T)
@@ -283,7 +283,7 @@ seedSource <- function(poi, species, region, currClim, futureClim, threshold = 2
   ##=======================
   if(verbose){
     tkfocus(log)
-    tkinsert(log$env$txt, "end", paste("Consolidating species data into a 'data.frame'...", sep = ""))
+    tkinsert(log$env$txt, "end", paste("Consolidating species data into a 'data.frame'... ", sep = ""))
     tkfocus(log$env$txt)}
   
   if(is(species, "data.frame")){
@@ -338,7 +338,7 @@ seedSource <- function(poi, species, region, currClim, futureClim, threshold = 2
     #-- Extract climate data for species
     if(verbose){
       tkfocus(log)
-      tkinsert(log$env$txt, "end", paste0("    Extracting climate data for species..."))
+      tkinsert(log$env$txt, "end", paste0("    Extracting climate data for species... "))
       tkfocus(log$env$txt)}
     
     spDatxy <- spDat
@@ -426,7 +426,7 @@ seedSource <- function(poi, species, region, currClim, futureClim, threshold = 2
     for(x in unique(revegPC$ID)){
       if(verbose){
         tkfocus(log) 
-        tkinsert(log$env$txt, "end", paste("    Calculating distance for ", x, "...", sep = ""))
+        tkinsert(log$env$txt, "end", paste("    Calculating distance for ", x, "... ", sep = ""))
         tkfocus(log$env$txt)}
       #-- get time slice data
       sliceDat <- revegPC[which(revegPC$ID == x),]
