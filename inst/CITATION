@@ -9,14 +9,14 @@ citEntry(entry = "Article",
                                    as.person("BM Potts")),
          journal      = "Restoration Ecology",
          year         = "2017",
-         volume       = "",
-         number       = "",
-         pages        = "",
-         url          = "",
+         volume       = "25",
+         number       = "4",
+         pages        = "524-531",
+         url          = "https://doi.org/10.1111/rec.12488",
          
          textVersion  =
            paste("PA Harrison, RE Vaillancourt, RMB Harris, BM Potts",
                  "(2017) Integrating climate change and habitat fragmentation 
                  to identify candidate seed sources for ecological restoration.
-                 Restoration Ecology. doi: 10.1111/rec.12488.")
+                 Restoration Ecology 25(4) 524-531. doi: 10.1111/rec.12488.")
 )
