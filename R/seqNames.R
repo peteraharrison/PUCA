@@ -24,5 +24,5 @@
 seqNames <- function(text, quantity){
   if(!is.numeric(quantity)){stop("'quantity' must be a numerical value > 0")}
   if(quantity < 1){stop("'quantity' must be a numerical value > 0")}
-  as.character(sapply(text, function(x) paste0(x, 1:round(quantity, 0))))
+  as.character(sapply(text, function(x){paste0(x, 1:round(quantity, 0))}))
 }
