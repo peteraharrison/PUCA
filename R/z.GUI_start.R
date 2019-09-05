@@ -1,4 +1,4 @@
-z.GUI_start<-function(logoDir, start1){
+z.GUI_start <- function(logoDir, start1){
   
   ## Set up GUI layout
     
@@ -11,7 +11,7 @@ z.GUI_start<-function(logoDir, start1){
   arcLogo<-paste(dataDir,'arc.gif', sep=""); utasLogo<-paste(dataDir,'utas.gif', sep=""); gaLogo<-paste(dataDir,'ga.gif', sep="")
   
   logo1 <- tkimage.create('photo', file=arcLogo,width=0, height=0)  
-  logo2<- tkimage.create('photo', file=utasLogo,width=0, height=0)
+  logo2 <- tkimage.create('photo', file=utasLogo,width=0, height=0)
   logo3 <- tkimage.create('photo', file=gaLogo,width=0, height=0)
   
   blk0<-tklabel(start1, text = "       ",bg='white');blk1<-tklabel(start1, text = "       ",bg='white')
