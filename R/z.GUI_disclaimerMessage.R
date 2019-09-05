@@ -1,28 +1,28 @@
-z.GUI_disclaimerMessage=function(){
-  disclaim  <- tktoplevel(bg='white')
+z.GUI_disclaimerMessage <- function(){
+  disclaim  <- tktoplevel(bg = 'white')
   tkwm.geometry(disclaim, "+100+50")
   tkwm.title(disclaim,'PUCA - Terms And Conditions')
   
-  disclaim2=tkframe(disclaim,bg='white')
+  disclaim2 <- tkframe(disclaim, bg = 'white')
   
-  scr <- tkscrollbar(disclaim2, command=function(...)tkyview(txt,...),bg='white')
-  txt <- tktext(disclaim2,height=20,width=110,bg='white')
-  tkconfigure(txt, yscrollcommand=function(...)tkset(scr,...))
-  tkpack(scr,side='right',fill='y')
-  tkpack(txt,expand='yes',fill='both')
+  scr <- tkscrollbar(disclaim2, command = function(...)tkyview(txt,...),bg='white')
+  txt <- tktext(disclaim2,height = 20,width = 110, bg = 'white')
+  tkconfigure(txt, yscrollcommand = function(...)tkset(scr,...))
+  tkpack(scr,side = 'right', fill = 'y')
+  tkpack(txt,expand = 'yes', fill = 'both')
   
-  font0= tclVar(TRUE)
-  font1= tclVar(TRUE)
-  tktag.configure(txt,font0,font='times 14 bold')
-  tktag.configure(txt,font1,font='times 12')
+  font0 <- tclVar(TRUE)
+  font1 <- tclVar(TRUE)
+  tktag.configure(txt,font0, font = 'times 14 bold')
+  tktag.configure(txt,font1, font = 'times 12')
   
-  tkinsert(txt,"end","Provenancing using climate analogues (PUCA)\n\n",font0)
-  tkinsert(txt,"end","Version 1.0 (Feb 2016)\nCopyright (c) 2016  Peter A. Harrison  <P.A.Harrison@utas.edu.au>\n\n",font1)
-  tkinsert(txt,"end","School of Biological Science\nUniversity of Tasmania\nPrivate Bag 55, Hobart, Australia. 7001\n\n",font1)
+  tkinsert(txt, "end", "Provenancing using climate analogues (PUCA)\n\n", font0)
+  tkinsert(txt, "end", "Version 1.0 (Feb 2016)\nCopyright (c) 2016  Peter A. Harrison  <P.A.Harrison@utas.edu.au>\n\n",font1)
+  tkinsert(txt, "end", "School of Biological Science\nUniversity of Tasmania\nPrivate Bag 55, Hobart, Australia. 7001\n\n",font1)
   
-  tkinsert(txt,"end","Terms and Conditions:\n\n",font0)
+  tkinsert(txt, "end", "Terms and Conditions:\n\n", font0)
   
-  tkinsert(txt,"end",
+  tkinsert(txt, "end",
            "                     
            GNU GENERAL PUBLIC LICENSE
            Version 3, 29 June 2007
@@ -657,7 +657,7 @@ z.GUI_disclaimerMessage=function(){
            state the exclusion of warranty; and each file should have at least
            the 'copyright' line and a pointer to where the full notice is found.
            
-{one line to give the program's name and a brief idea of what it does.}
+           {one line to give the program's name and a brief idea of what it does.}
            Copyright (C) {year}  {name of author}
            
            This program is free software: you can redistribute it and/or modify
@@ -678,7 +678,7 @@ z.GUI_disclaimerMessage=function(){
            If the program does terminal interaction, make it output a short
            notice like this when it starts in an interactive mode:
            
-{project}  Copyright (C) {year}  {fullname}
+           {project}  Copyright (C) {year}  {fullname}
            This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
            This is free software, and you are welcome to redistribute it
            under certain conditions; type `show c' for details.
@@ -699,22 +699,24 @@ z.GUI_disclaimerMessage=function(){
            Public License instead of this License.  But first, please read
            <http://www.gnu.org/philosophy/why-not-lgpl.html>.", font1)
   
-  tkconfigure(txt, state="disabled")
+  tkconfigure(txt, state = "disabled")
   tkpack(txt)
   tkpack(disclaim2)
   
-  disclaim3=tkframe(disclaim,bg='white')
+  disclaim3 <- tkframe(disclaim, bg = 'white')
   
-  tkgrid(tklabel(disclaim3,text=' ',bg='white'))
-  tkgrid(tklabel(disclaim3,text='You must agree on the terms and conditions stated above before you can continue!',font=fontHeading2,bg='white'),columnspan=2)
-  tkgrid(tklabel(disclaim3,text=' ',bg='white'))
-  ok0 <-tkbutton(disclaim3,text="I AGREE",command=function(){tkdestroy(disclaim);tkfocus(start1); tkraise(start1)},width=20,bg='lightgrey',font='times 12 bold')
-  cancel0<-tkbutton(disclaim3,text="I DO NOT AGREE",command=function(){tkfocus(start1);tkdestroy(start1);tkdestroy(disclaim)},
-                    width=20,bg='lightgrey',font='times 12 bold')
+  tkgrid(tklabel(disclaim3, text = ' ', bg = 'white'))
+  tkgrid(tklabel(disclaim3, text = 'You must agree on the terms and conditions stated above before you can continue!', 
+                 font = fontHeading2, bg = 'white'), columnspan = 2)
+  tkgrid(tklabel(disclaim3, text = ' ', bg ='white'))
+  ok0 <- tkbutton(disclaim3, text = "I AGREE", command = function(){tkdestroy(disclaim);tkfocus(start1); tkraise(start1)}, 
+                 width = 20, bg ='lightgrey', font = 'times 12 bold')
+  cancel0 <- tkbutton(disclaim3,text = "I DO NOT AGREE", command = function(){tkfocus(start1);tkdestroy(start1);tkdestroy(disclaim)},
+                    width = 20, bg = 'lightgrey', font = 'times 12 bold')
   tkgrid(ok0, cancel0) 
-  tkgrid(tklabel(disclaim3,text='',bg='white'))
+  tkgrid(tklabel(disclaim3, text = '', bg = 'white'))
   
-  tkgrid(disclaim3)
+  #tkgrid(disclaim3)
   
   tkpack(disclaim3)
 }
