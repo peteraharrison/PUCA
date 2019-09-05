@@ -66,11 +66,13 @@ seedSource <- function(poi, species, region, currClim, futureClim, threshold = 2
     tkfocus(log$env$txt)
   }
   
+  
+  ##=====================
   ## Pre-function checks
   ##=====================
   
   #-- a. revegetation site coordinates
-  if(inherits(poi, "numeric") & length(poi <2)){
+  if(inherits(poi, "numeric") & length(poi < 2)){
     if(verbose){
       tkfocus(log) 
       tkinsert(log$env$txt, "end", paste0("\nError: Incorrect latitude/longitude coordinates entered!\n\n", sep = ""))
