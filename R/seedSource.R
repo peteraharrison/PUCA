@@ -106,7 +106,7 @@ seedSource <- function(poi, species, region, currClim, futureClim, threshold = 2
   if(length(future_mod) > 1){
     if(verbose){
       tkfocus(log) 
-      tkinsert(log$env$txt, "end", paste("More than one GCM selected. Calculating the multi-model mean...", sep = ""))
+      tkinsert(log$env$txt, "end", paste("More than one GCM selected. Calculating the multi-model mean... ", sep = ""))
       tkfocus(log$env$txt)}
     
     newS <- stack()
@@ -507,7 +507,7 @@ seedSource <- function(poi, species, region, currClim, futureClim, threshold = 2
         
       if(verbose){
         tkfocus(log)
-        tkinsert(log$env$txt, "end", paste0("DONE!", "\n"))
+        tkinsert(log$env$txt, "end", paste0("DONE!", "\n\n"))
         tkfocus(log$env$txt)}
     } # end of loop 1 
     
