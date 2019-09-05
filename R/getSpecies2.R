@@ -64,19 +64,20 @@ getSpecies2 <- function(species, client, plot = TRUE, region){
   if(client == "ALA"){
     #library(ALA4R)
     cat(paste("Downloading ", species, " data now...", sep = ""))
-    speciesDat = as.data.frame(occurrences(taxon = species, download_reason_id = 10)$data)
-    speciesDat = speciesDat[, names(speciesDat) %in% c("species", "latitude", "longitude")]
+    speciesDat <- as.data.frame(ALA4R::occurrences(taxon = species, download_reason_id = 10)$data)
+    speciesDat <- speciesDat[, names(speciesDat) %in% c("species", "latitude", "longitude")]
     colnames(speciesDat) <- c("species", "Latitude", "Longitude")
-    speciesDat <- speciesDat[which(speciesDat$species == species), ]
+    speciesDat <- speciesDat[grep(pattern = species, x = speciesDat$species), ] #old PAH: which(speciesDat$species == species)
     speciesDat <- na.omit(speciesDat)
     cat("DONE!")
     
     #plot
     if(plot){
+      data("worldMap")
       cat(paste("\nPlotting ", species, " data in new window...", sep = ""))
       speciesDatPlot <- speciesDat
-      coordinates(speciesDatPlot) <- ~Longitude+Latitude
-      projection(speciesDatPlot) <- CRS(projection(worldMap))
+      sp::coordinates(speciesDatPlot) <- ~Longitude+Latitude
+      raster::projection(speciesDatPlot) <- sp::CRS(raster::projection(worldMap))
       plotMyRegion(region = region, distribution = speciesDatPlot, species = speciesDat$species[1])
       cat("DONE!\n\n")
     }
@@ -85,20 +86,21 @@ getSpecies2 <- function(species, client, plot = TRUE, region){
   if(client == "GBIF"){
     #library(rgbif)
     cat(paste("Downloading ", species, " data now...", sep = ""))
-    counts <- occ_search(scientificName = species)$meta$count
-    speciesDat <- occ_search(scientificName = species, limit = counts)
+    counts <- rgbif::occ_search(scientificName = species)$meta$count
+    speciesDat <- rgbif::occ_search(scientificName = species, limit = counts)
     speciesDat <- as.data.frame(speciesDat['data'])
     speciesDat <- speciesDat[, names(speciesDat) %in% c('data.scientificName', "data.decimalLatitude", "data.decimalLongitude")]
-    colnames(speciesDat) <- c("Latitude", "Longitude", "species")
-    speciesDat <- speciesDat[which(speciesDat$species == species), ]
+    colnames(speciesDat) <- c("species", "Latitude", "Longitude")
+    speciesDat <- speciesDat[grep(pattern = species, x = speciesDat$species), ]
     speciesDat <- na.omit(speciesDat)
     
     #plot
     if(plot){
+      data("worldMap")
       cat(paste("\nPlotting ", species, " data in new window...", sep = ""))
       speciesDatPlot <- speciesDat
-      coordinates(speciesDatPlot) <- ~Longitude+Latitude
-      projection(speciesDatPlot) <- CRS(projection(worldMap))
+      sp::coordinates(speciesDatPlot) <- ~Longitude+Latitude
+      raster::projection(speciesDatPlot) <- sp::CRS(raster::projection(worldMap))
       plotMyRegion(region = region, distribution = speciesDatPlot, species = speciesDat$species[1])
     }
   }
