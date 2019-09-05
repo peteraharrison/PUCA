@@ -27,22 +27,23 @@
 #' @export
 #' @import sp raster
 #' 
-speciesInPolygon = function (x, y, r, numVert = 1000){
+speciesInPolygon <- function (x, y, r, numVert = 1000){
   ## buffer drawing based on plotrix::draw.circle()
-  r = r/100 # r*0.008333333
+  r <- r/100 # r*0.008333333
   #-- Get values to draw a circle
   angle.inc <- 2 * pi/numVert
   angles <- seq(0, 2 * pi - angle.inc, by = angle.inc)
-  for (circle in 1:length(r)){
+  for(circle in 1:length(r)){
     xv <- cos(angles) * r[circle] + x
     yv <- sin(angles) * r[circle] + y
   }
-  tmpCirc = data.frame(x = xv, y = yv)
-  tmpCirc = rbind(tmpCirc, tmpCirc[1,])
+  tmpCirc <- data.frame(x = xv, y = yv)
+  tmpCirc <- rbind(tmpCirc, tmpCirc[1,])
   
   #-- Convert buffer to spatial
-  sp_poly <- SpatialPolygons(list(Polygons(list(Polygon(tmpCirc)), ID=1)))
-  sp_poly_df <- SpatialPolygonsDataFrame(sp_poly, data=data.frame(ID=1))
+  sp_poly <- SpatialPolygons(list(Polygons(list(Polygon(tmpCirc)), ID = 1)))
+  projection(sp_poly) <- CRS("+proj=longlat +datum=WGS84")
+  sp_poly_df <- SpatialPolygonsDataFrame(sp_poly, data = data.frame(ID = 1))
   e <- extent(sp_poly)
   wkt <- paste("POLYGON((", paste(e@xmin, e@ymin, collapse = " "), ",",
                paste(e@xmax, e@ymin, collapse = " "), ",",
@@ -50,13 +51,13 @@ speciesInPolygon = function (x, y, r, numVert = 1000){
                
                paste(e@xmin, e@ymax, collapse = " "), ",",
                paste(e@xmin, e@ymin, collapse = " "),"))", sep = "")
-  
+
   #lonlat <- sp_poly@polygons[[1]]@Polygons[[1]]@coords
   #temp = chull(lonlat)
   #lonlat = lonlat[c(temp,temp[1]),] 
   #wkt = paste("POLYGON((",paste(apply(lonlat,1,function(z)paste(z,collapse=" ")),collapse=","),"))",sep="")
   #wkt = rgeos::writeWKT(sp_poly)
-  spList <- specieslist(wkt = wkt, fq = "rank:species")
+  spList <- ALA4R::specieslist(wkt = wkt, fq = "rank:species")
   spList <- data.frame(kingdom = spList$kingdom, 
                        species = spList$speciesName,
                        commonName = spList$commonName,
