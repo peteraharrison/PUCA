@@ -101,6 +101,7 @@ getSpecies2 <- function(species, client, plot = TRUE, region){
       speciesDatPlot <- speciesDat
       sp::coordinates(speciesDatPlot) <- ~Longitude+Latitude
       raster::projection(speciesDatPlot) <- sp::CRS(raster::projection(worldMap))
+      par(mar = c(1,1,1,1))
       plotMyRegion(region = region, distribution = speciesDatPlot, species = speciesDat$species[1])
     }
   }
