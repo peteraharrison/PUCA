@@ -39,7 +39,7 @@ drawRegion <- function (x, y, r, numVert = 1000){
   tmpCirc = rbind(tmpCirc, tmpCirc[1,])
   
   #-- Convert buffer to spatial
-  sp_poly <- sp::SpatialPolygons(list(sp::Polygons(list(sp::Polygon(tmpCirc)), ID = 1)))    
+  sp_poly <- SpatialPolygons(list(Polygons(list(Polygon(tmpCirc)), ID = 1)))    
   
   #-- Return buffer
   invisible(sp_poly)
