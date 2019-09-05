@@ -26,14 +26,18 @@ georefPoints <- function(data, rank, printToScreen = T){
   tmpR <- tmpD[1:20, ]
   geoL <- list()
   for(g in 1:nrow(tmpR)){
-    tmpGeoRef <- PUCA::geoCode(paste(tmpR$Latitude[g], tmpR$Longitude[g], sep=","), type = 2)
-    tmpLoc <- rbind(strsplit(tmpGeoRef, " ")[[1]])
-    geoL[[g]] <- if(length(tmpLoc) == 4){paste0(tmpLoc[,1])} else{paste(tmpLoc[,1], tmpLoc[,2], sep = " ")}
+    tmpGeoRef <- geoCode(address = paste(tmpR$Latitude[g], tmpR$Longitude[g], sep=","))
+    geoL[[g]] <- tmpGeoRef
+    # tmpLoc <- rbind(strsplit(tmpGeoRef, " ")[[1]])
+    # geoL[[g]] <- if(length(tmpLoc) == 4){paste0(tmpLoc[, 1])} else{paste(tmpLoc[,1], tmpLoc[,2], sep = " ")}
   }
+  # geoL1 <- lapply(geoL, "[[", function(x){strsplit(x = x, split = ",")[[1]][2]})
+  
   geoRefs <- do.call(rbind.data.frame, geoL)
   colnames(geoRefs) <- "location"
-  tmpOut <- cbind(tmpR, geoRefs)
-  row.names(tmpOut) <- 1:n
+  geoRefs$locations <- apply(geoRefs, 1, function(x){strsplit(x = x, split = ",")[[1]][2]})
+  tmpOut <- data.frame(tmpR, Location = geoRefs$locations, row.names = NULL)
+  # row.names(tmpOut) <- 1:n
   if(printToScreen){print(tmpOut)}
   invisible(tmpOut)
 }
