@@ -40,9 +40,10 @@
 #'
 plotMyRegion <- function(region = NULL, extent = NULL, 
                         distribution = NULL, species = species, ...){
+  data("worldMap")
   if(inherits(region, "character")){
     #windows(width = 50, height = 50, title = species)
-    plot(worldMap[which(worldMap@data$admin == region),], ...)
+    sp::plot(worldMap[which(worldMap@data$CountryNam == region),], ...)
     if(inherits(distribution, "SpatialPoints")){points(distribution, pch = 21, 
                                                        col = "black", bg = "red", cex = 0.6)}
     title(substitute(expr = paste("Species name: ", italic(i)), 
@@ -50,7 +51,7 @@ plotMyRegion <- function(region = NULL, extent = NULL,
   }
   if(length(extent) == 4){
     #windows(width = 50, height = 50, title = species)
-    plot(worldMap, xlim = c(extent[1], extent[2]), ylim = c(extent[3], extent[4]), ...)
+    sp::plot(worldMap, xlim = c(extent[1], extent[2]), ylim = c(extent[3], extent[4]), ...)
     if(inherits(distribution, "SpatialPoints")){points(distribution, pch = 21, 
                                                        col = "black", bg = "red", cex = 0.6)}
     title(expression(paste(italic(species))))
