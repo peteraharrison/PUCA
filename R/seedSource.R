@@ -42,7 +42,7 @@
 #' @importFrom tcltk2 tk2text tk2scrollbar 
 #' 
 seedSource <- function(poi, species, region, currClim, futureClim, threshold = 2,
-                      radius = 5, returnResults = 20, verbose = T){
+                      radius = 5, returnResults = 20, geoCode = T, verbose = T){
   ##===================
   ## Set up log window
   ##===================
@@ -489,28 +489,37 @@ seedSource <- function(poi, species, region, currClim, futureClim, threshold = 2
       
       ## 7. Print results to console
       ##=============================
-      
-      cat("\n==================================================================\n\n")
-      cat(paste0("POI: ", poi[, "Longitude"], ", " , poi[, 'Latitude']," (",geoCode(paste(poi[, "Latitude"], poi[, "Longitude"], sep = ",")), ")"))
-      cat("\n")
-      cat(paste("Species:", as.character(spDat[1, "species"]), sep = " " ))
-      cat("\n")
-      cat(paste("Time slice: ", x, sep = " " ))
-      cat("\n")
-      # cat(paste("Dataset written to global environment as: ", paste("output", s, x, sep = "_") ,"\n\n", sep = ""))
-      
-      consoleOutput <- georefPoints(data = colList, rank = "climDist", printToScreen = F)
-      print(consoleOutput, digits = 6)
-      
-      mainList[[x]] <- list(collection_list = colList, 
-                            top20_geocoded = consoleOutput)
+      if(geoCode){
+        cat("\n==================================================================\n\n")
+        cat(paste0("POI: ", poi[, "Longitude"], ", " , poi[, 'Latitude']," (",geoCode(paste(poi[, "Latitude"], poi[, "Longitude"], sep = ",")), ")"))
+        cat("\n")
+        cat(paste("Species:", as.character(spDat[1, "species"]), sep = " " ))
+        cat("\n")
+        cat(paste("Time slice: ", x, sep = " " ))
+        cat("\n")
+        # cat(paste("Dataset written to global environment as: ", paste("output", s, x, sep = "_") ,"\n\n", sep = ""))
         
-      if(verbose){
-        tkfocus(log)
-        tkinsert(log$env$txt, "end", paste0("DONE!", "\n\n"))
-        tkfocus(log$env$txt)}
+        consoleOutput <- georefPoints(data = colList, rank = "climDist", printToScreen = F)
+        print(consoleOutput, digits = 6)
+        
+        mainList[[x]] <- list(collection_list = colList, 
+                              top20_geocoded = consoleOutput)
+        
+        if(verbose){
+          tkfocus(log)
+          tkinsert(log$env$txt, "end", paste0("DONE!", "\n\n"))
+          tkfocus(log$env$txt)}
+      }
+      if(!geoCode){
+        mainList[[x]] <- list(collection_list = colList)
+        
+        if(verbose){
+          tkfocus(log)
+          tkinsert(log$env$txt, "end", paste0("DONE!", "\n\n"))
+          tkfocus(log$env$txt)}
+      }
     } # end of loop 1 
-    
+
     outs[[s]][["Collections"]] <- mainList
   } # end of species loop
   
