@@ -363,7 +363,7 @@ seedSource <- function(poi, species, region, currClim, futureClim, threshold = 2
                                              futureClimRevegPoints, 
                                              currClimSpecies, 
                                              currClimPoints))
-    missing <- which(is.na(pcaDat$bio1))
+    missing <- which(is.na(pcaDat[, 2]))
     pcaDat <- na.omit(pcaDat)
     
     outs[[s]][["Climate_data"]] <- pcaDat
