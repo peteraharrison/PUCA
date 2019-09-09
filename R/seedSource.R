@@ -137,8 +137,8 @@ seedSource <- function(poi, species, region, currClim, futureClim, threshold = 2
       tkfocus(log$env$txt)}
     stop("Restoration species has not be defined! Expected species to be class 'list' or class 'data.frame'")}
   if(inherits(species, "data.frame")){
-    if(ncol(spDat) <3){stop("Unexpected number of columns - expected three columns 'species', 'Longitude', and 'Latitude'")}
-    if(ncol(spDat[,names(spDat) %in% c("species", tolower("species"), "Latitude", "Longitude")]) < 3){
+    if(ncol(species) <3){stop("Unexpected number of columns - expected three columns 'species', 'Longitude', and 'Latitude'")}
+    if(ncol(species[, names(species) %in% c("species", "latitude", "lat", "lon", "long", "longitude")]) < 3){
       stop("Unexpected column names. Please check names match the following: species, Latitude, Longitude.")}
   }
   if(inherits(species, "list")){
@@ -235,6 +235,16 @@ seedSource <- function(poi, species, region, currClim, futureClim, threshold = 2
                             n = 20, mask = region) #cellsize = res(climate_current)[1]
   revegPointsDD <- revegPoints@coords
   colnames(revegPointsDD) <- c("Longitude", "Latitude")
+  
+  ## IDEA to run multiple sites at once
+  # revegPointsList <- list()
+  # for(p in 1:nrow(poi)){
+  #   revegPoints <- drawBuffer(x = poi[p, "Longitude"], y = poi[p, "Latitude"], r = radius, 
+  #                             n = 20, mask = region) #cellsize = res(climate_current)[1]
+  #   revegPointsDD <- revegPoints@coords
+  #   colnames(revegPointsDD) <- c("Longitude", "Latitude")
+  #   revegPointsList[[p]] <- revegPointsDD
+  # }
   
   
   ##=================================================================
