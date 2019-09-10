@@ -363,55 +363,78 @@ seedSource <- function(poi, species, region, currClim, futureClim, threshold = 2
                                              futureClimRevegPoints, 
                                              currClimSpecies, 
                                              currClimPoints))
-    missing <- which(is.na(pcaDat[, 2]))
-    pcaDat <- na.omit(pcaDat)
+    pcaDat$Latitude <- c(rep(revegPoints@coords[, 2], 4), spDatxy@coords[, 2], regionPoints_df$Latitude)
+    pcaDat$Longitude <- c(rep(revegPoints@coords[, 1], 4), spDatxy@coords[, 1], regionPoints_df$Longitude)
     
-    outs[[s]][["Climate_data"]] <- pcaDat
-    
-    if(verbose){
+    if (verbose) {
       tkfocus(log)
       tkinsert(log$env$txt, "end", paste0("DONE!", "\n"))
-      tkfocus(log$env$txt)}
+      tkfocus(log$env$txt)
+    }
     
-    #pcaDat <- na.omit(pcaDat)
+    if(imputeMissingData){
+      nminssing <- length(unique(unlist(apply(pcaDat, 2, FUN = function(x){which(is.na(x))}))))
+      if (verbose) {
+        tkfocus(log)
+        tkinsert(log$env$txt, "end", paste0("    Imputing ", nminssing, " missing points from environmental data... "))
+        tkfocus(log$env$txt)
+      }
+      nb <- missMDA::estim_ncpPCA(pcaDat[, !colnames(pcaDat) %in% c("ID")], ncp.max = ncol(pcaDat) - 2,
+                                  method = "Regularized", nbsim = 100)
+      pcaDatImputed <- missMDA::imputePCA(pcaDat[, !colnames(pcaDat) %in% c("ID")], ncp = nb$ncp)
+      pcaDat <- data.frame(ID = pcaDat$ID, pcaDatImputed$completeObs)
+      missing <- which(is.na(pcaDat[, 2]))
+      outs[[s]][["Climate_data"]] <- pcaDat
+      if (verbose) {
+        tkfocus(log)
+        tkinsert(log$env$txt, "end", paste0("DONE!", "\n"))
+        tkfocus(log$env$txt)
+      }
+    }
+    if(!imputeMissingData){
+      missing <- unique(unlist(apply(pcaDat, 2, FUN = function(x){which(is.na(x))}))) #which(is.na(pcaDat[,2]))
+      pcaDat <- na.omit(pcaDat)
+      outs[[s]][["Climate_data"]] <- pcaDat
+    }
+    
     currLength <- range(grep("revegCurrent", pcaDat$ID))
     futureLength <- range(grep("revegFuture", pcaDat$ID))
     spLength <- range(grep(unique(spDat$species), pcaDat$ID))
     regionLength <- range(grep("region", pcaDat$ID))
     
-    ## Run PCA and assign to gloabl environment
-    if(verbose){
+    ## Run PCA and assign to list
+    if (verbose) {
       tkfocus(log)
       tkinsert(log$env$txt, "end", paste0("    Running PCA..."))
-      tkfocus(log$env$txt)}
-        
-    pcaDset <- pcaDat[, !colnames(pcaDat) %in% "ID"]
-    pca1 <- PCA(pcaDset, graph = F, ind.sup = 1:spLength[2]) 
-    
+      tkfocus(log$env$txt)
+    }
+    pcaDset <- pcaDat[, !colnames(pcaDat) %in% c("ID", "Latitude", "Longitude")]
+    pca1 <- PCA(pcaDset, graph = F, ind.sup = 1:spLength[2])
     outs[[s]][["PCA_model"]] <- pca1
-    #assign(x = paste("PCA_model", s, sep = "_"), value = pca1, envir = .GlobalEnv)
     
     ## Extract data from PCA output
-    regionPC <- data.frame(ID = rep("region", nrow(pca1$ind$coord)), pca1$ind$coord[, 1:length(which(pca1$eig[, 1] >= 1))])
+    regionPC <- data.frame(ID = rep("region", nrow(pca1$ind$coord)), 
+                           pca1$ind$coord[, 1:length(which(pca1$eig[, 1] >= 
+                                                             1))])
     colnames(regionPC)[2:ncol(regionPC)] <- seqNames("PC", length(which(pca1$eig[, 1] >= 1)))
     
-    revegCurrentPC <- data.frame(ID = currClimRevegPoints$ID, revegPointsDD,
-                                 pca1$ind.sup$coord[currLength[1]:currLength[2], 1:length(which(pca1$eig[, 1] >= 1))])
+    revegCurrentPC <- data.frame(ID = rep(currClimRevegPoints$ID[1], max(currLength)), 
+                                 pcaDat[pcaDat$ID == currClimRevegPoints$ID[1], c("Latitude", "Longitude")], 
+                                 pca1$ind.sup$coord[currLength[1]:currLength[2], 
+                                                    1:length(which(pca1$eig[, 1] >= 1))])
     colnames(revegCurrentPC)[4:ncol(revegCurrentPC)] <- seqNames("PC", length(which(pca1$eig[, 1] >= 1)))
     
-    revegFuturePC <- data.frame(ID = futureClimRevegPoints$ID, revegPointsDD,
-                                pca1$ind.sup$coord[futureLength[1]:futureLength[2], 1:length(which(pca1$eig[, 1] >= 1))])
-    colnames(revegFuturePC)[4:ncol(revegFuturePC)] <- seqNames("PC", length(which(pca1$eig[, 1] >= 1)))
+    revegFuturePC <- data.frame(ID = pcaDat[pcaDat$ID %in% unique(futureClimRevegPoints$ID), c("ID")], 
+                                pcaDat[pcaDat$ID %in% unique(futureClimRevegPoints$ID), c("Latitude", "Longitude")],
+                                pca1$ind.sup$coord[futureLength[1]:futureLength[2], 
+                                                   1:length(which(pca1$eig[, 1] >= 1))])
+    colnames(revegFuturePC)[4:ncol(revegFuturePC)] <- seqNames("PC",length(which(pca1$eig[, 1] >= 1)))
     
-    if(length(missing) > 0){
-      spCurrentPC <- data.frame(ID = currClimSpecies[-c(missing - min(spLength)), "ID"], spDat[-c(missing - min(spLength)), 2:3],
-                                pca1$ind.sup$coord[spLength[1]:spLength[2], 1:length(which(pca1$eig[, 1] >= 1))])
-      colnames(spCurrentPC)[4:ncol(spCurrentPC)] <- seqNames("PC", length(which(pca1$eig[, 1] >= 1)))
-    } else{
-      spCurrentPC <- data.frame(ID = currClimSpecies[, "ID"], spDat[, 2:3],
-                                pca1$ind.sup$coord[spLength[1]:spLength[2], 1:length(which(pca1$eig[, 1] >= 1))])
-      colnames(spCurrentPC)[4:ncol(spCurrentPC)] <- seqNames("PC", length(which(pca1$eig[, 1] >= 1)))
-    }
+    spCurrentPC <- data.frame(ID = pcaDat[pcaDat$ID %in% currClimSpecies$ID[1], c("ID")], 
+                              pcaDat[pcaDat$ID %in% currClimSpecies$ID[1], c("Latitude", "Longitude")], 
+                              pca1$ind.sup$coord[spLength[1]:spLength[2], 1:length(which(pca1$eig[, 1] >= 1))])
+    
+    colnames(spCurrentPC)[4:ncol(spCurrentPC)] <- seqNames("PC", length(which(pca1$eig[, 1] >= 1)))
     
     revegPC <- rbind(revegCurrentPC, revegFuturePC)
     
