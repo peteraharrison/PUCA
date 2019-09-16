@@ -10,6 +10,8 @@
 #' @param threshold A numeric value to transform the climate distance into a binary value
 #' @param radius The radius of the buffer that is drawn around the revegetation site using \code{drawBuffer}
 #' @param returnResults The number of top ranking distribution points to print to the console based on the climate distance between the revegetaion site and each distribution point
+#' @param geoCode A logical input whether to geoCode the top ranking distribution points
+#' @param imputeMissingData A logical indicator whether to impute missing values (TRUE) or omit (FALSE) from the data set prior to the PCA. 
 #' @param verbose Logic whether to print a log to the screen
 #' 
 #' @details The function first creates a uniform 'SpatialPoints' grid across the defined \code{region}, matching the resolution of the climate layers (i.e. if \code{res(currClim)[1]} equals 0.01 then the grid points are 0.01 apart). The contemporary climate is then extracted and passed to the  Principal Components Analysis (PCA), which is implemented using the \code{PCA} function of package \code{FactoMineR}. It is this PC climate space that is used to define the Euclidean distance between the revegetation site and each species distribution point. \strong{Thus, the definition of \code{region} is important and requires due consideration}. A region may de defined by (i) a specific distance from the revegetation site (see \code{drawRegion}), (ii) using the eco-regions of the world (i.e. http://wwf.panda.org/about_our_earth/ecoregions/ecoregion_list/), (iii) or bio-regions of a country (i.e. Australias IBRA bioregions -https://www.environment.gov.au/land/nrs/science/ibra/australias-bioregions-maps).
@@ -42,7 +44,7 @@
 #' @importFrom tcltk2 tk2text tk2scrollbar 
 #' 
 seedSource <- function(poi, species, region, currClim, futureClim, threshold = 2,
-                      radius = 5, returnResults = 20, geoCode = T, verbose = T){
+                      radius = 5, returnResults = 20, geoCode = T, imputeMissingData = T, verbose = T){
   ##===================
   ## Set up log window
   ##===================
